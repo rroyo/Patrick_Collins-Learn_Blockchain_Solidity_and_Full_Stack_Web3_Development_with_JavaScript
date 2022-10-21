@@ -6,25 +6,24 @@ import "./PriceConverter.sol";
 contract FundMe {    
     using PriceConverter for uint256;
 
-    uint256 public minimumUsd = 10 * 1e18;
+    uint256 public constant MINIMUM_USD = 10 * 1e18;
 
     address[] public funders;
     mapping(address => uint256) public addressToAmountFunded;
 
-    address public owner;
+    address public immutable i_owner;
 
     constructor() {
-        owner = msg.sender;
+        i_owner = msg.sender;
     }
 
     function fund() public payable {
-        require(msg.value.getConverstionRate() >= minimumUsd, "Didn't send enough!");
+        require(msg.value.getConverstionRate() >= MINIMUM_USD, "Didn't send enough!");
         funders.push(msg.sender);
         addressToAmountFunded[msg.sender] += msg.value;
     }
 
     function withdraw() public onlyOwner {
-        require(msg.sender == owner, "Sender is not the owner!");
         // Reset the mapping
         for(uint256 funderIndex = 0; funderIndex < funders.length; funderIndex++) {
             address funder = funders[funderIndex];
@@ -41,7 +40,7 @@ contract FundMe {
     }
 
     modifier onlyOwner {
-        require(msg.sender == owner, "Sender is not the owner!");
+        require(msg.sender == i_owner, "Sender is not the owner!");
         _; // execute the rest of the code in the function that used this modifier
     }
 
