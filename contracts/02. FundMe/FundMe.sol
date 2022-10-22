@@ -3,6 +3,8 @@ pragma solidity ^0.8.8;
 
 import "./PriceConverter.sol";
 
+error NotOwner();
+
 contract FundMe {    
     using PriceConverter for uint256;
 
@@ -12,10 +14,11 @@ contract FundMe {
     mapping(address => uint256) public addressToAmountFunded;
 
     address public immutable i_owner;
+    uint public test;
 
     constructor() {
         i_owner = msg.sender;
-    }
+    }    
 
     function fund() public payable {
         require(msg.value.getConverstionRate() >= MINIMUM_USD, "Didn't send enough!");
@@ -40,11 +43,20 @@ contract FundMe {
     }
 
     modifier onlyOwner {
-        require(msg.sender == i_owner, "Sender is not the owner!");
+        //require(msg.sender == i_owner, "Sender is not the owner!");
+        if(msg.sender != i_owner) { revert NotOwner(); }
         _; // execute the rest of the code in the function that used this modifier
     }
 
     function getPrice() public view returns(uint256){
-        return PriceConverter.getPrice();
+        return PriceConverter.getPrice();        
+    }
+
+    receive() external payable {
+        fund();
+    }
+
+    fallback() external payable {
+        fund();
     }
 }
