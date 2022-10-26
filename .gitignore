@@ -3,6 +3,7 @@
 
 .deps
 .idea
+.prova
 
 artifacts
 node_modules
