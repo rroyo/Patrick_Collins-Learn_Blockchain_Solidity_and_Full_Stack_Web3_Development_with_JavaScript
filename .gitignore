@@ -1,10 +1,11 @@
 *.abi
 *.bin
+.encryptedKey.json
+.env
 *.log
 
 .deps
 .idea
-.prova
 
 artifacts
 node_modules
