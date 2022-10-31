@@ -1,7 +1,9 @@
 const { ethers, run, network } = require("hardhat");
 
 async function main() {
-    const SimpleStorageFactory = await ethers.getContractFactory("SimpleStorage");
+    const SimpleStorageFactory = await ethers.getContractFactory(
+        "SimpleStorage"
+    );
     console.log("Deploying contract...");
     const simpleStorage = await SimpleStorageFactory.deploy();
     await simpleStorage.deployed();
@@ -31,7 +33,10 @@ async function verify(contractAddress, args) {
 }
 
 async function storeNumber(contractAddress, number) {
-    const contract = await ethers.getContractAt("SimpleStorage", contractAddress);
+    const contract = await ethers.getContractAt(
+        "SimpleStorage",
+        contractAddress
+    );
     const current = await contract.retrieve();
     console.log(`Current number: ${current}`);
     console.log("Storing new number...");
