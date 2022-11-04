@@ -3,8 +3,13 @@ pragma solidity ^0.8.8;
 
 import "./PriceConverter.sol";
 
-error NotOwner();
+error FundMe__NotOwner();
 
+/** @title A contract for crown funding
+ *  @author Ramon Royo
+ *  @notice This contract is to demo a sample funding contract
+ *  @dev This implements price feeds as our library
+ */
 contract FundMe {
     using PriceConverter for uint256;
 
@@ -21,6 +26,14 @@ contract FundMe {
     constructor(address priceFeedAddress) {
         i_owner = msg.sender;
         priceFeed = AggregatorV3Interface(priceFeedAddress);
+    }
+
+    receive() external payable {
+        fund();
+    }
+
+    fallback() external payable {
+        fund();
     }
 
     function fund() public payable {
@@ -47,7 +60,7 @@ contract FundMe {
 
     modifier onlyOwner {
         //require(msg.sender == i_owner, "Sender is not the owner!");
-        if(msg.sender != i_owner) { revert NotOwner(); }
+        if(msg.sender != i_owner) { revert FundMe__NotOwner(); }
         _; // execute the rest of the code in the function that used this modifier
     }
 
@@ -55,11 +68,5 @@ contract FundMe {
         return PriceConverter.getPrice(priceFeed);
     }
 
-    receive() external payable {
-        fund();
-    }
 
-    fallback() external payable {
-        fund();
-    }
 }

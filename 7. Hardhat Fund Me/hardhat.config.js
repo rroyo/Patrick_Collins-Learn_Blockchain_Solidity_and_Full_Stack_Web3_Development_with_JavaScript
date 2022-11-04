@@ -11,8 +11,6 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY || "0xkey";
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "key";
 const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || "key";
 
-/** @type import('hardhat/config').HardhatUserConfig */
-
 module.exports = {
     defaultNetwork: "hardhat",
     networks: {
@@ -20,6 +18,7 @@ module.exports = {
             url: GOERLI_RPC_URL,
             accounts: [PRIVATE_KEY],
             chainId: 5,
+            blockConfirmations: 6,
         },
         localhost: {
             url: "http://127.0.0.1:8545/",
@@ -33,7 +32,7 @@ module.exports = {
         apiKey: ETHERSCAN_API_KEY,
     },
     gasReporter: {
-        enabled: true,
+        enabled: false,
         outputFile: "gas-report.txt",
         noColors: false,
         currency: "EUR",

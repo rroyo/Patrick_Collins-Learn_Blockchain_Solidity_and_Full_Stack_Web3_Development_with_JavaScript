@@ -53,7 +53,3 @@ main()
         console.error(error);
         process.exit(1);
     });
-
-//verify("0xb380E7ADbcbdFEbf8C782685aF8268F109271650");
-
-//storeNumber("0xb380E7ADbcbdFEbf8C782685aF8268F109271650", 1813);

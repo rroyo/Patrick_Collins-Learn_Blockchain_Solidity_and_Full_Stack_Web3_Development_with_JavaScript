@@ -4,6 +4,7 @@ const {
     developmentChains,
     LOG_SEPARATOR,
 } = require("../helper-hardhat-config");
+const { verify } = require("../utils/verify");
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const { deploy, log } = deployments;
@@ -26,11 +27,21 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     // well what happens when we want to change chains?
     // when going for localhost or hardhat network we want to use a mock
+    const args = [ethUsdPriceFeedAddress];
     const fundMe = await deploy("FundMe", {
         from: deployer,
-        args: [ethUsdPriceFeedAddress],
-        log: true,
+        args: args,
+        log: true, // verbose deployment
+        waitConfirmations: network.config.blockConfirmations || 1,
     });
+
+    if (
+        !developmentChains.includes(network.name) &&
+        process.env.ETHERSCAN_API_KEY
+    ) {
+        await verify(fundMe.address, args);
+    }
+
     log(LOG_SEPARATOR);
 };
 
