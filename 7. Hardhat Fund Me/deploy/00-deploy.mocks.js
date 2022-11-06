@@ -7,7 +7,6 @@ const {
 } = require("../helper-hardhat-config");
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-    console.log(network.name);
     const { deploy, log } = deployments;
     const { deployer } = await getNamedAccounts();
 

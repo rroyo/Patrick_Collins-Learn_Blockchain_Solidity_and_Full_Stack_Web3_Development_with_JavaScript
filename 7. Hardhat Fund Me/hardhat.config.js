@@ -2,9 +2,10 @@ require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
 require("@nomiclabs/hardhat-etherscan");
 require("./tasks/block-number.js");
-require("hardhat-gas-reporter");
 require("solidity-coverage");
 require("hardhat-deploy");
+require("hardhat-ethernal");
+require("hardhat-gas-reporter");
 
 const GOERLI_RPC_URL = process.env.GOERLI_RPC_URL || "https://eth-rinkeby";
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "0xkey";
