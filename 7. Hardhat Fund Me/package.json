@@ -1,5 +1,6 @@
 {
-  "name": "7.FundMe",
+  "name": "hardhat-fund-me",
+  "author": "Ramon Royo",
   "version": "1.0.0",
   "license": "MIT",
   "devDependencies": {
@@ -27,5 +28,15 @@
   "dependencies": {
     "dotenv": "^16.0.3",
     "hardhat-ethernal": "^3.0.0"
+  },
+  "scripts": {
+    "test": "yarn hardhat test",
+    "test:staging": "yarn hardhat test --network goerli",
+    "fund": "yarn hardhat run scripts/fund.js --network localhost",
+    "withdraw": "yarn hardhat run scripts/withdraw.js --network localhost",
+    "node": "yarn hardhat node",
+    "lint": "yarn solhint 'contracts/*.sol'",
+    "format": "yarn prettier --write .",
+    "coverage": "yarn hardhat coverage"
   }
 }

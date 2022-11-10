@@ -16,12 +16,12 @@ contract FundMe {
     using PriceConverter for uint256;
 
     // State Variables
-    mapping(address => uint256) public s_addressToAmountFunded;
-    address[] public s_funders;
-    address public immutable i_owner;
+    mapping(address => uint256) private s_addressToAmountFunded;
+    address[] private s_funders;
+    address private immutable i_owner;
     uint256 public constant MINIMUM_USD = 1 * 1e18;
 
-    AggregatorV3Interface public s_priceFeed;
+    AggregatorV3Interface private s_priceFeed;
 
     modifier onlyOwner() {
         //require(msg.sender == i_owner, "Sender is not the owner!");
@@ -44,7 +44,7 @@ contract FundMe {
         fund();
     }
 
-    function withdraw() public onlyOwner {
+    function withdraw() public payable onlyOwner {
         // Reset the mapping
         for (
             uint256 funderIndex = 0;
@@ -67,11 +67,11 @@ contract FundMe {
         require(callSuccess, "Call failed");
     }
 
-    function cheaperWithdraw() public {
+    function cheaperWithdraw() public onlyOwner {
         address[] memory funders = s_funders;
 
         for (
-            unit256 funderIndex = 0;
+            uint256 funderIndex = 0;
             funderIndex < funders.length;
             funderIndex++
         ) {
@@ -96,5 +96,33 @@ contract FundMe {
 
     function getPrice() public view returns (uint256) {
         return PriceConverter.getPrice(s_priceFeed);
+    }
+
+    function getOwner() public view returns (address) {
+        return i_owner;
+    }
+
+    function getBalance() public view returns (uint256) {
+        return address(this).balance;
+    }
+
+    function getFunder(uint256 index) public view returns (address) {
+        return s_funders[index];
+    }
+
+    function getFundersLength() public view returns (uint256) {
+        return s_funders.length;
+    }
+
+    function getAddressToAmountFunded(address funder)
+        public
+        view
+        returns (uint256)
+    {
+        return s_addressToAmountFunded[funder];
+    }
+
+    function getPriceFeed() public view returns (AggregatorV3Interface) {
+        return s_priceFeed;
     }
 }

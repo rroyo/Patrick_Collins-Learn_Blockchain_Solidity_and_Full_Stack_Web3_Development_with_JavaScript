@@ -4,8 +4,8 @@ require("@nomiclabs/hardhat-etherscan");
 require("./tasks/block-number.js");
 require("solidity-coverage");
 require("hardhat-deploy");
-require("hardhat-ethernal");
 require("hardhat-gas-reporter");
+// require("hardhat-ethernal"); // local blockchain explorer
 
 const GOERLI_RPC_URL = process.env.GOERLI_RPC_URL || "https://eth-rinkeby";
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "0xkey";
@@ -33,9 +33,9 @@ module.exports = {
         apiKey: ETHERSCAN_API_KEY,
     },
     gasReporter: {
-        enabled: false,
+        enabled: true,
         outputFile: "gas-report.txt",
-        noColors: false,
+        noColors: true,
         currency: "EUR",
         coinmarketcap: COINMARKETCAP_API_KEY,
     },
