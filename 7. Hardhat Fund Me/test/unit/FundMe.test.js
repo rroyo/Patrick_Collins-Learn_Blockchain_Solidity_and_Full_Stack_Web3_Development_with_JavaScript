@@ -77,8 +77,8 @@ const { developmentChains } = require("../../helper-hardhat-config");
 
               it("withdraws ETH from a single founder", async function () {
                   // Arrange
-                  // for the present use case, using fundMe.provider is equivalent
-                  // to using ethers.provider
+                  // using fundMe.provider.getBalance is equivalent to using
+                  // ethers.providers.JsonRpcProvider(process.env.RPC_ENDPOINT).getBalance
                   const startingFundMeBalance =
                       await fundMe.provider.getBalance(fundMe.address);
                   const startingDeployerBalance =
