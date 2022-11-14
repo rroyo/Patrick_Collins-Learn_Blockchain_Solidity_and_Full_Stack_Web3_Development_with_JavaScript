@@ -12,8 +12,11 @@ error Raffle__NotEnoughETHEntered();
 
 contract Raffle {
     /* State Variables */
-    unit256 private immutable i_entranceFee;
+    uint256 private immutable i_entranceFee;
     address payable[] private s_players; // Winner has to be payable
+
+    /* Events */
+    event RaffleEnter(address indexed player);
 
     constructor(uint256 entranceFee) {
         i_entranceFee = entranceFee;
@@ -25,7 +28,10 @@ contract Raffle {
             revert Raffle__NotEnoughETHEntered();
         }
 
-        s.players.push(payable(msg.sender)); // Winner has to be payable
+        s_players.push(payable(msg.sender)); // Winner has to be payable
+        // Emit an event when we update a dynamic array or mapping
+        // Named events with the function name reversed
+        emit RaffleEnter(msg.sender);
     }
 
     //    function pickRandomWinner() {}
