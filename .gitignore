@@ -2,6 +2,7 @@
 .encryptedKey.json
 .env
 .idea
+.vscode
 *.abi
 *.bin
 *.log
