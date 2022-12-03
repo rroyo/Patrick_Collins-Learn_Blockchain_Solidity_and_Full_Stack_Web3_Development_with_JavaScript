@@ -78,7 +78,9 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatible {
    *  3. Our subscription is funded with LINK
    *  4. The lottery should be in an "open" state
    */
-  function checkUpkeep(bytes calldata) external view override returns(bool upkeepNeeded, bytes memory) {
+  function checkUpkeep(
+    bytes calldata
+  ) external view override returns (bool upkeepNeeded, bytes memory) {
     upkeepNeeded = (block.timestamp - lasTimeStamp) > interval;
   }
 
@@ -99,11 +101,11 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatible {
 
   // This fuction is automatically called by requestRandomWinner()
   function fulfillRandomWords(
-    uint256, /* requestId */ // We don't use this parameter, but this function needs a uint256 here
+    uint256 /* requestId */, // We don't use this parameter, but this function needs a uint256 here
     uint256[] memory randomWords
   ) internal override {
     // We asked for a single random word, so we'll hard code the index of ranwomWords to 0
-    uint256 indexOfWinner = randomWords[0] % s_players.length; // Returns the index of a player 
+    uint256 indexOfWinner = randomWords[0] % s_players.length; // Returns the index of a player
     address payable recentWinner = s_players[indexOfWinner];
     s_recentWinner = recentWinner;
     (bool success, ) = recentWinner.call{value: address(this).balance}("");
